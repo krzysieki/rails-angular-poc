@@ -1,2 +1,18 @@
 h1 Login
 
+form(role="form", ng-submit="submitLoginForm()")
+  .form-group
+    label(for="exampleInputEmail1") Email address
+    input.form-control(type="email", placeholder="Enter email", ng-model="model.user.email")
+
+  .form-group
+    label(for="exampleInputPassword1") Password
+    input.form-control(type="password", placeholder="Password", ng-model="model.user.password")
+
+
+  .checkbox
+    label
+      input(type="checkbox", ng-model="model.user.remember_me")
+      | Remember me
+
+  button.btn.btn-default(type="submit") Submit
