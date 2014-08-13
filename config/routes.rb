@@ -15,8 +15,8 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
 
       devise_scope :user do
-        match '/sessions' => 'sessions#create', :via => :post
-        match '/sessions' => 'sessions#destroy', :via => :delete
+        match '/v1/sessions' => 'sessions#create', :via => [:post, :options]
+        match '/v1/sessions' => 'sessions#destroy', :via => [:delete, :options]
       end
 
       #resources :record

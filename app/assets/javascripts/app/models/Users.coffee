@@ -6,7 +6,7 @@ App.factory 'Users', [
   (Restangular, $cookieStore, $timeout) ->
 
     $notification = {}
-    Users = Restangular.one('users')
+    Users = Restangular.one('sessions')
     Users.username = localStorage.username or ''
     Users.remember = localStorage.remember or false
     Users.session    = $cookieStore.get('session')
@@ -18,7 +18,7 @@ App.factory 'Users', [
     #   "password": "string"
     # }
     Users.login = (data) ->
-      Users.post('sign_in', data)
+      Users.post('',data)
       .then (res) ->
 
         console.log res
