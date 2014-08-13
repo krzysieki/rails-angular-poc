@@ -14,9 +14,6 @@ App = angular.module('app', [
 # routing configuration #
 #########################
 .config(['$urlRouterProvider', ($urlRouterProvider) ->
-
-  console.log 'test1'
-
   $urlRouterProvider.otherwise('/main')
 ])
 
@@ -27,6 +24,20 @@ App = angular.module('app', [
   $translateProvider.useStaticFilesLoader(prefix: 'i18n/locale-', suffix: '.json')
   $translateProvider.preferredLanguage('en_US');
 ])
+
+.config([
+    'RestangularProvider',
+    '$locationProvider'
+
+    (RestangularProvider, $locationProvider) ->
+      RestangularProvider.setBaseUrl('/api/v1')
+      RestangularProvider.setDefaultHeaders
+        'Content-Type'  : 'application/json'
+        'Accept'        : 'application/json'
+
+
+      $locationProvider.html5Mode(false)
+  ])
 
 
 
