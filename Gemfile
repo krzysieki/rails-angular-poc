@@ -17,6 +17,7 @@ gem 'figaro', '>= 1.0.0.rc1'
 gem 'haml-rails'
 gem 'high_voltage'
 gem 'pundit'
+gem 'rack-cors', :require => 'rack/cors'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]

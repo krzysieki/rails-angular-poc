@@ -34,7 +34,6 @@ App = angular.module('app', [
       RestangularProvider.setDefaultHeaders
         'Content-Type'  : 'application/json'
         'Accept'        : 'application/json'
-        'X-CSRF-Token'    : 'Rrj1VYf0WxOw26K1qYkalGA+6h59sCwLlHX+yPEIbDI='
 
 
 
