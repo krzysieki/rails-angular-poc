@@ -2,9 +2,12 @@ class Api::V1::UsersController < Api::V1::BaseController
   #before_filter :authenticate_user!
   #after_action :verify_authorized
 
+  after_action :verify_authorized
+
   def index
     @users = User.all
     authorize User
+    render :json => {:info => "Users", :users => @users}, :status => 200
   end
 
   def show

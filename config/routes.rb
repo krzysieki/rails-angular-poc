@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # root :to => 'welcome#index'
   resources :home, only: [:index]
   root :to => "home#index"
-  #devise_for :users
+  devise_for :users
 
   namespace :api, defaults: {format: :json} do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
@@ -22,9 +22,9 @@ Rails.application.routes.draw do
       #resources :record
 
       resources :users
-      #match '/users' => 'users#show', :via => :get
-      #match '/users' => 'users#update', :via => :put
-      #match '/users' => 'users#destroy', :via => :delete
+      match '/users' => 'users#show', :via => :get
+      match '/users' => 'users#update', :via => :put
+      match '/users' => 'users#destroy', :via => :delete
     end
   end
 
