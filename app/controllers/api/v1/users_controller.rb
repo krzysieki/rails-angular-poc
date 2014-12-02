@@ -1,5 +1,5 @@
-class UsersController < Api::V1::BaseController
-  before_filter :authenticate_user!
+class Api::V1::UsersController < Api::V1::BaseController
+  #before_filter :authenticate_user!
   #after_action :verify_authorized
 
   def index

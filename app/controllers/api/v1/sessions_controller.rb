@@ -1,7 +1,7 @@
 class Api::V1::SessionsController < Devise::SessionsController
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :null_session, :if => Proc.new { |c| c.request.format == 'application/json' }
+  protect_from_forgery with: :null_session, :if => Proc.new { |c| c.request.format == 'application/vnd.radd.v1' }
 
   # below is not needed if protect_from_forgery is used
   #skip_before_filter :verify_authenticity_token
@@ -14,6 +14,14 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   rescue_from Exception, with: :generic_exception
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+
+  #{
+  #"user": {
+  #    "email":"user@example.com",
+  #    "password":"changeme"
+  #}
+  #
+  #}
 
   def create
     warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#failure")
