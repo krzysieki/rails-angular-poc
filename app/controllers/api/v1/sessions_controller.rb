@@ -31,8 +31,8 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   respond_to :json
 
-  skip_before_filter :authenticate_user!, :only => [:create, :new]
-  skip_authorization_check only: [:create, :failure, :show_current_user, :options, :new]
+  #skip_before_filter :authenticate_user!, :only => [:create, :new]
+  #skip_authorization_check only: [:create, :failure, :show_current_user, :options, :new]
 
   rescue_from Exception, with: :generic_exception
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
@@ -65,8 +65,6 @@ class Api::V1::SessionsController < Devise::SessionsController
     render :status => 200, :json => { :success => true, :info => "Current User", :user => current_user }
   end
 
-  private
-
   def record_not_found(error)
     respond_to do |format|
       format.json { render :json => {:error => error.message}, :status => 404 }
@@ -86,7 +84,6 @@ class Api::V1::SessionsController < Devise::SessionsController
   end
 
   def create
-
     respond_to do |format|
       format.html {
         super

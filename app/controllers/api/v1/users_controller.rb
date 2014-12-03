@@ -1,12 +1,22 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  #before_filter :authenticate_user!
+  before_filter :authenticate_user!
+
   #after_action :verify_authorized
 
-  after_action :verify_authorized
+  # Globally rescue Authorization Errors in controller.
+  # Returning 403 Forbidden if permission is denied
+  rescue_from Pundit::NotAuthorizedError, with: :permission_denied
+
+  # Enforces access right checks for individuals resources
+  after_filter :verify_authorized, :except => :index
+
+  # Enforces access right checks for collections
+  after_filter :verify_policy_scoped, :only => :index
 
   def index
-    @users = User.all
-    authorize User
+
+    @users = policy_scope(User)
+    #authorize User
     render :json => {:info => "Users", :users => @users}, :status => 200
   end
 
@@ -49,6 +59,12 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   private
+
+  def permission_denied
+    respond_to do |format|
+      format.json { render :json => {:error => error.message}, :status => 403 }
+    end
+  end
 
   def secure_params
     params.require(:user).permit(:role, :email, :password, :password_confirmation)

@@ -1,8 +1,5 @@
 class Api::V1::BaseController < ActionController::Base
 
-
-  protect_from_forgery with: :exception
-
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, :if => Proc.new { |c| c.request.format == 'application/json' }
@@ -17,7 +14,7 @@ class Api::V1::BaseController < ActionController::Base
 
   respond_to :json
 
-  rescue_from Exception, with: :generic_exception
+  #rescue_from Exception, with: :generic_exception
   #rescue_from :all, :backtrace => true
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   #error_formatter :json, API::ErrorFormatter
@@ -54,6 +51,8 @@ class Api::V1::BaseController < ActionController::Base
     # timing attacks.
     if user && Devise.secure_compare(user.authentication_token, user_auth_token)
       sign_in(user, store: false)
+    else
+      raise ActionController::InvalidAuthenticityToken
     end
   end
 
@@ -70,3 +69,17 @@ class Api::V1::BaseController < ActionController::Base
   end
 
 end
+
+module PunditHelper
+  extend ActiveSupport::Concern
+
+  private
+
+  def user_not_authorized
+    flash[:alert] = "Access denied."
+    redirect_to (request.referrer || root_path)
+  end
+
+end
+
+Api::V1::BaseController.send :include, PunditHelper
